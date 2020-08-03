@@ -1,0 +1,261 @@
+
+delete from USER_SDO_GEOM_METADATA;
+
+drop index DistritosSP_IDX;
+drop index BairrosSP_IDX;
+drop index RiosSP_IDX;
+drop index SEDESP_IDX;
+
+drop table SEDESP;
+drop table RiosSP;
+drop table BairrosSP;
+drop table DistritosSP;
+
+
+
+
+CREATE TABLE DistritosSP (
+ cod NUMBER(32) NOT NULL ,
+ sigla VARCHAR2(20),
+ denominacao VARCHAR2(200),
+ mapa_distrito MDSYS.SDO_GEOMETRY,
+ PRIMARY KEY (cod));
+ 
+
+ 
+ CREATE TABLE BairrosSP (
+   cod NUMBER(32) NOT NULL,
+   bairro VARCHAR2(200),
+   cod_distrito NUMBER(32) NOT NULL,
+   mapa_bairro MDSYS.SDO_GEOMETRY,
+   PRIMARY KEY (cod),
+   constraint DistritoFK foreign key(cod_distrito) references DistritosSP(cod));
+
+ 
+ CREATE TABLE RiosSP (
+    geom_id NUMBER(32) NOT NULL,
+    classe VARCHAR2(100) NULL,
+    mapa_rio MDSYS.SDO_GEOMETRY,
+    PRIMARY KEY (geom_id));
+
+CREATE TABLE SEDESP (
+   cod NUMBER(32) NOT NULL,
+   cod_distrito NUMBER(32) NOT NULL,
+   mapa_sede MDSYS.SDO_GEOMETRY,
+   PRIMARY KEY (cod),
+   constraint Distrito_SedeFK foreign key(cod_distrito) references DistritosSP(cod));
+
+-- Cadastro de distritos
+
+INSERT INTO DistritosSP (cod, sigla, denominacao, mapa_distrito) 
+ VALUES (1, 'VMR', 'VILA MARIA',
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(6,10, 10,1, 14,10, 10,14, 6,10)));
+
+INSERT INTO DistritosSP (cod, sigla, denominacao, mapa_distrito) 
+ VALUES (2, 'VPR', 'VILA PRUDENTE',
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(6,10, 10,1, 2,3, 6,10)));
+
+INSERT INTO DistritosSP (cod, sigla, denominacao, mapa_distrito) 
+ VALUES (3, 'VJB', 'JABAQUARA',
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(2,3, 2,21, 10,21, 10,14, 6,10, 2,3 )));
+
+select * from DISTRITOSSP;
+
+-- Cadastro de Bairros
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (1, 'VILA MARIA', 1,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(10,1, 14,10, 8,6, 10,1 )));
+
+
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (2, 'VILA GUILHERME',1,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(8,6, 14,10, 10,14, 6,10 )));
+                                
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (3, 'VILA PRUDENTE', 2,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(5,2, 10,1, 9,4, 6,5 , 5,2 )));
+                             
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (4, 'VILA NOVA', 2,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(6,5, 6,10, 9,4, 6,5)));                             
+
+
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (5, 'JARDIM PRUDENTE', 2,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(5,2, 6,5, 6,10, 2,3, 5,2))); 
+
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (6, 'VILA STA CATARINA', 3,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(2,3, 2,10, 6,10, 2,3))); 
+
+
+
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (7, 'VILA JABAQUARA', 3,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(2,10, 4,10, 4,21, 2,21, 2,10))); 
+
+
+
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (8, 'VILA AEROPORTO',3,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1),
+                                MDSYS.SDO_ORDINATE_ARRAY(4,10, 4,16, 10,16, 10,14, 6,10, 4,10))); 
+                                
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (9, 'JARDIM PLANALTO',3,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(4,16, 4,21, 6,21, 6,18, 10,16, 4,16))); 
+                                
+INSERT INTO BairrosSP (cod, bairro, cod_distrito, mapa_bairro) 
+ VALUES (11, 'VILA GUARANI', 3,
+                                MDSYS.SDO_GEOMETRY(2003, NULL, NULL,
+                                MDSYS.SDO_ELEM_INFO_ARRAY( 1, 1003, 1 ),
+                                MDSYS.SDO_ORDINATE_ARRAY(10,16, 6,18, 6, 21, 10, 21, 10,16)));    
+
+;
+select * from bairrossp;
+
+
+;
+
+-- Inser??o dos Rios
+
+INSERT INTO RIOSSP ( geom_id, classe, mapa_rio) VALUES (1, 'RIO PEDREIRA',
+MDSYS.SDO_GEOMETRY(2002, NULL, NULL,
+MDSYS.SDO_ELEM_INFO_ARRAY( 1, 2, 1 ),
+MDSYS.SDO_ORDINATE_ARRAY(4,4, 3,12,4,23)));
+
+
+
+INSERT INTO RIOSSP ( geom_id, classe, mapa_rio) VALUES (2, 'RIO ?GUA FUNDA',
+MDSYS.SDO_GEOMETRY(2002, NULL, NULL,
+MDSYS.SDO_ELEM_INFO_ARRAY( 1, 2, 1 ),
+MDSYS.SDO_ORDINATE_ARRAY(6,3, 10,8,10,11, 4,20)));
+
+INSERT INTO RIOSSP( geom_id, classe, mapa_rio) VALUES (3, 'CORREGO ?GUA RASA',
+MDSYS.SDO_GEOMETRY(2002, NULL, NULL,
+MDSYS.SDO_ELEM_INFO_ARRAY( 1, 2, 1 ),
+MDSYS.SDO_ORDINATE_ARRAY(8,2, 12,11, 9,14, 8,19, 4,20)));
+
+;
+select * from riossp
+;
+--  Sede dos distritos
+INSERT INTO SEDESP (COD, COD_DISTRITO,mapa_sede) VALUES ( 1, 1, 
+MDSYS.SDO_GEOMETRY(2001, NULL,
+MDSYS.SDO_POINT_TYPE(5, 6, NULL ), NULL, NULL));
+
+INSERT INTO SEDESP (COD, COD_DISTRITO,mapa_sede) VALUES ( 2, 2, 
+MDSYS.SDO_GEOMETRY(2001, NULL,
+MDSYS.SDO_POINT_TYPE(11, 7, NULL ), NULL, NULL));
+
+INSERT INTO SEDESP (COD, COD_DISTRITO,mapa_sede) VALUES ( 3, 3, 
+MDSYS.SDO_GEOMETRY(2001, NULL,
+MDSYS.SDO_POINT_TYPE(5, 12, NULL ), NULL, NULL));
+
+select * from SEDESP;
+
+-- Cria??o de ?ndices espaciais
+INSERT INTO USER_SDO_GEOM_METADATA
+VALUES ( 'DistritosSP' ,'mapa_distrito' ,
+MDSYS.SDO_DIM_ARRAY(
+MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.0005),
+MDSYS.SDO_DIM_ELEMENT('Y',-180,180,0.0005)),
+NULL);
+
+INSERT INTO USER_SDO_GEOM_METADATA
+VALUES ( 'BairrosSP' ,'mapa_bairro' ,
+MDSYS.SDO_DIM_ARRAY(
+MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.0005),
+MDSYS.SDO_DIM_ELEMENT('Y',-180,180,0.0005)),
+NULL);
+
+INSERT INTO USER_SDO_GEOM_METADATA
+VALUES ( 'Sedesp' ,'mapa_sede' ,
+MDSYS.SDO_DIM_ARRAY(
+MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.0005),
+MDSYS.SDO_DIM_ELEMENT('Y',-180,180,0.0005)),
+NULL);
+
+INSERT INTO USER_SDO_GEOM_METADATA
+VALUES ( 'RIOSSP' ,'mapa_rio' ,
+MDSYS.SDO_DIM_ARRAY(
+MDSYS.SDO_DIM_ELEMENT('X',-180,180,0.0005),
+MDSYS.SDO_DIM_ELEMENT('Y',-180,180,0.0005)),
+NULL);
+
+
+CREATE INDEX DistritosSP_IDX ON
+DistritosSP(mapa_distrito) INDEXTYPE IS
+MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX BairrosSP_IDX ON
+BairrosSP(mapa_bairro) INDEXTYPE IS
+MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX RiosSP_IDX ON
+RiosSP(mapa_rio) INDEXTYPE IS
+MDSYS.SPATIAL_INDEX;
+
+CREATE INDEX SEDESP_IDX ON
+Sedesp(mapa_sede) INDEXTYPE IS
+MDSYS.SPATIAL_INDEX;
+
+-- Consultas
+
+-- Distritos Vizinhos
+
+SELECT  *
+FROM distritossp t1, distritossp t2
+WHERE
+SDO_TOUCH (t1.mapa_distrito, t2.mapa_distrito) =
+'TRUE' ;
+
+
+-- Bairros vizinhos em distritos diferentes
+SELECT  *
+FROM BAIRROSSP t1, BAIRROSSP t2
+WHERE
+SDO_TOUCH (t1.mapa_bairro, t2.mapa_bairro) =
+'TRUE'  and t1.COD_DISTRITO != t2.COD_DISTRITO
+;
+
+SELECT *
+FROM SEDESP t1, BAIRROSSP t2
+WHERE SDO_INSIDE (t1.mapa_sede, t2.mapa_bairro) =
+'TRUE' ;
+
+SELECT t1.BAIRRO
+FROM BairrosSP t1, BairrosSP t2
+WHERE SDO_GEOM.SDO_DISTANCE (t1.mapa_bairro, t2.mapa_bairro, 0.00005) < 5 
+AND t2.bairro = 'VILA GUARANI'
+
+;
+
+SELECT *
+FROM RIOSSP t1, BAIRROSSP t2
+WHERE SDO_ANYINTERACT (t1.mapa_rio, t2.mapa_bairro) =
+'TRUE' and t1.classe = 'RIO ?GUA FUNDA';
+  
